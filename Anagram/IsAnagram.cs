@@ -12,7 +12,8 @@ namespace Anagram
         {
             if((word.Length != tmpWord.Length) || (comparison(word, tmpWord) == 0) )
                 return 0;
-            return 1;
+            else
+                return 1;
         }
 
         static int comparison (string word, string tmpWord)
@@ -29,7 +30,8 @@ namespace Anagram
 
             if (n == k)
                 return 1;
-            return 0;
+            else
+                return 0;
         }
     }
 }

@@ -43,6 +43,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AddToTmp.cs" />
     <Compile Include="Anagram.cs" />
     <Compile Include="IsAnagram.cs" />
     <Compile Include="Program.cs" />
