@@ -12,36 +12,31 @@ namespace Anagram
     {
         public Anagram()
         {
-            
-            //File.Create(@"C:\\c#\Result.txt");
-            //File.Create(@"C:\\c#\tmpRegist.txt");
+            FileStream s = new FileStream("C:\\c#\\Result.txt", FileMode.Create);
+            s.Close();
+            FileStream w = new FileStream("C:\\c#\\tmpRegist.txt", FileMode.Create);
+            //w.Close();
             string word = null;
             string tmpWord = null;
             IsAnagram flag = new IsAnagram();
-            //AddToTmp add = new AddToTmp("\nКЛОУН");
-            StreamReader Regist = new StreamReader(@"C:\\c#\tmpRegist.txt", Encoding.UTF8);
+            StreamReader Regist = new StreamReader(w, Encoding.UTF8);
             StreamReader Reader = new StreamReader(@"C:\\c#\newFile.txt", Encoding.UTF8);
             while ((word = Reader.ReadLine()) != null)
             {
-                Regist = new StreamReader(@"C:\\c#\tmpRegist.txt", Encoding.UTF8);
-                while ((tmpWord = Reader.ReadLine()) != null || tmpWord == null)
+                int f = 1;
+                while((tmpWord = Regist.ReadLine())!= null)
                 {
-                    if (tmpWord != null && flag.check(word, tmpWord) == 1)
-                        break;
-                    else if(tmpWord == null)
-                    {
-                        Regist.Close();
-                        Reader.Close();
-                        Thread.Sleep(300);
-                        AddToTmp addword = new AddToTmp(word);
-                        Regist = new StreamReader(@"C:\\c#\tmpRegist.txt", Encoding.UTF8);
-                    }
+                    if (flag.check(word, tmpWord) == 1)
+                        f = 0;
                 }
-
+                Regist.Close();
+                AddToTmp addword = new AddToTmp(word, f);
+                Regist = new StreamReader(@"C:\\c#\tmpRegist.txt", Encoding.UTF8);
             }
             Reader.Close();
 
-            
+
+            StreamWriter ResultWriter = new StreamWriter(@"C:\\c#\Result.txt", true, Encoding.UTF8);
             Regist = new StreamReader(@"C:\\c#\tmpRegist.txt", Encoding.UTF8);
             while ((tmpWord = Regist.ReadLine()) != null)
             {
@@ -49,9 +44,9 @@ namespace Anagram
                  while ((word = Reader.ReadLine()) != null)
                 {
                         if(flag.check(word, tmpWord) == 1)
-                            Console.WriteLine(word);               
+                            ResultWriter.Write(word + " ");               
                 }
-                Console.WriteLine("///////////////");
+                ResultWriter.WriteLine("\n");
                 Reader.Close();
             }
             
@@ -60,8 +55,10 @@ namespace Anagram
 
             //FileStream lenth = new FileStream.Lenght;
             Console.WriteLine();
-            
-            //Regist.Close();
+            Reader.Close();
+            Regist.Close();
+            ResultWriter.Close();
+            File.Delete("C:\\c#\tmpRegist.txt");
         }
     }
 }

@@ -9,10 +9,11 @@ namespace Anagram
 {
     class AddToTmp
     {
-        public AddToTmp(string word)
+        public AddToTmp(string word, int f)
         {
             StreamWriter writer = new StreamWriter(@"C:\\c#\tmpRegist.txt", true, Encoding.UTF8);
-            writer.WriteLine(word);
+            if(f != 0)
+                writer.WriteLine(word);
             writer.Close();
         }
     }
