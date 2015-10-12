@@ -1,0 +1,5 @@
+C:\github.com\mayet626\Anagram\Anagram\bin\Release\Anagram.exe.config
+C:\github.com\mayet626\Anagram\Anagram\bin\Release\Anagram.exe
+C:\github.com\mayet626\Anagram\Anagram\bin\Release\Anagram.pdb
+C:\github.com\mayet626\Anagram\Anagram\obj\Release\Anagram.exe
+C:\github.com\mayet626\Anagram\Anagram\obj\Release\Anagram.pdb
