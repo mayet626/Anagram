@@ -13,9 +13,10 @@ namespace Anagram
         static void Main(string[] args)
         {
             Console.WriteLine("Стартуем!");
-            Anagram anagram = new Anagram();
+            CreateListOfAnagrams tmp = new CreateListOfAnagrams();
+            CreateResultList result = new CreateResultList();
+            Console.WriteLine("Типа всё)");
             Console.ReadLine();
-
         }
     }
 }

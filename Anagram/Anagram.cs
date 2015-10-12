@@ -4,7 +4,6 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.IO;
-using System.Threading;
 
 namespace Anagram
 {
@@ -12,53 +11,51 @@ namespace Anagram
     {
         public Anagram()
         {
-            FileStream s = new FileStream("C:\\c#\\Result.txt", FileMode.Create);
-            s.Close();
-            FileStream w = new FileStream("C:\\c#\\tmpRegist.txt", FileMode.Create);
-            //w.Close();
+            FileStream tmpFile = new FileStream("C:\\c#\\tmpRegist.txt", FileMode.Create, FileAccess.ReadWrite);
+            FileStream mainFile = new FileStream("C:\\c#\\newFile.txt", FileMode.Open, FileAccess.ReadWrite);
             string word = null;
             string tmpWord = null;
             IsAnagram flag = new IsAnagram();
-            StreamReader Regist = new StreamReader(w, Encoding.UTF8);
-            StreamReader Reader = new StreamReader(@"C:\\c#\newFile.txt", Encoding.UTF8);
+            StreamReader Regist = new StreamReader(tmpFile, Encoding.UTF8);
+            StreamReader Reader = new StreamReader(mainFile, Encoding.UTF8);
             while ((word = Reader.ReadLine()) != null)
             {
-                int f = 1;
-                while((tmpWord = Regist.ReadLine())!= null)
+                bool f = true;
+                while ((tmpWord = Regist.ReadLine())!= null)
                 {
                     if (flag.check(word, tmpWord) == 1)
-                        f = 0;
+                        f = false;
                 }
-                Regist.Close();
-                AddToTmp addword = new AddToTmp(word, f);
-                Regist = new StreamReader(@"C:\\c#\tmpRegist.txt", Encoding.UTF8);
+                tmpFile.Close();
+                if (f == true)
+                    File.AppendAllText("C:\\c#\\tmpRegist.txt", word+Environment.NewLine);
+                
+                tmpFile = new FileStream("C:\\c#\\tmpRegist.txt", FileMode.OpenOrCreate, FileAccess.ReadWrite);
+                Regist = new StreamReader(tmpFile, Encoding.UTF8);
             }
-            Reader.Close();
+            mainFile.Close();
 
 
-            StreamWriter ResultWriter = new StreamWriter(@"C:\\c#\Result.txt", true, Encoding.UTF8);
-            Regist = new StreamReader(@"C:\\c#\tmpRegist.txt", Encoding.UTF8);
+            FileStream ResultFile = new FileStream("C:\\c#\\Result.txt", FileMode.Create);
+            ResultFile.Close();           
+            mainFile = new FileStream("C:\\c#\\newFile.txt", FileMode.Open, FileAccess.Read);
+            Reader = new StreamReader(mainFile, Encoding.UTF8);
+            //tmpFile.Seek(0, SeekOrigin.Begin);
             while ((tmpWord = Regist.ReadLine()) != null)
             {
-                 Reader = new StreamReader(@"C:\\c#\newFile.txt", Encoding.UTF8);
-                 while ((word = Reader.ReadLine()) != null)
+                //mainFile.Seek(0, SeekOrigin.Begin);
+                while ((word = Reader.ReadLine()) != null)
                 {
-                        if(flag.check(word, tmpWord) == 1)
-                            ResultWriter.Write(word + " ");               
+
+                    if (flag.check(word, tmpWord) == 1)
+                        File.AppendAllText("C:\\c#\\Result.txt", word + " ");
                 }
-                ResultWriter.WriteLine("\n");
-                Reader.Close();
-            }
-            
-            
-
-
-            //FileStream lenth = new FileStream.Lenght;
+                
+                File.AppendAllText("C:\\c#\\Result.txt", Environment.NewLine);
+            }            
             Console.WriteLine();
-            Reader.Close();
-            Regist.Close();
-            ResultWriter.Close();
-            File.Delete("C:\\c#\tmpRegist.txt");
+            tmpFile.Close();
+            File.Delete(@"C:\\c#\tmpRegist.txt");
         }
     }
 }

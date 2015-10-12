@@ -9,12 +9,14 @@ namespace Anagram
 {
     class AddToTmp
     {
-        public AddToTmp(string word, int f)
+        public AddToTmp(string word, FileStream w, bool EndLine)
         {
-            StreamWriter writer = new StreamWriter(@"C:\\c#\tmpRegist.txt", true, Encoding.UTF8);
-            if(f != 0)
+            StreamWriter writer = new StreamWriter(w, Encoding.UTF8);
+            if (EndLine == true)
                 writer.WriteLine(word);
-            writer.Close();
+            else
+                writer.Write(word);
+            //writer.Close();
         }
     }
 }
